@@ -17,6 +17,8 @@ public final class Constants {
     public static final int LEFT_BACK_MOTOR_PORT = 2;
     public static final int RIGHT_FRONT_MOTOR_PORT = 3;
     public static final int RIGHT_BACK_MOTOR_PORT = 4;
+
+    public static final int CONTINUOUS_MAX_CURRENT = 40;
     
     public static final int JOY_PORT = 0;
     public static final int XBOX_PORT = 1;
