@@ -22,9 +22,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   public DriveTrain train;
-  public XboxController controller;
-  public Joystick joy;
-  public JoystickButton button;
+  public static XboxController controller;
+  public static Joystick joy;
+  public static JoystickButton button;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     train = new DriveTrain();

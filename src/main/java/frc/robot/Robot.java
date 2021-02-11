@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     
+    
   }
 
   /**
@@ -52,6 +53,8 @@ public class Robot extends TimedRobot {
     
 
     CommandScheduler.getInstance().run();
+    
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -94,7 +97,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    m_robotContainer.button.toggleWhenPressed(new DriveForward());
+    // m_robotContainer.button.toggleWhenPressed(new DriveForward());
+    m_robotContainer.train.drive(RobotContainer.controller.getX(), RobotContainer.controller.getY(), 0);
 
     
   }
