@@ -97,8 +97,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    // m_robotContainer.button.toggleWhenPressed(new DriveForward());
-    m_robotContainer.train.drive(RobotContainer.controller.getX(), RobotContainer.controller.getY(), 0);
+    // Will note be using controller(Xbox) for driving
+    m_robotContainer.train.drive(RobotContainer.controller.getX(), RobotContainer.controller.getY(), RobotContainer.controller.getRawAxis(2));
 
     
   }
