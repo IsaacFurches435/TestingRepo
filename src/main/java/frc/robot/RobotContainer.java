@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.OIConstants;
+import frc.robot.commands.FollowTrajectory;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -21,17 +23,22 @@ import frc.robot.subsystems.DriveTrain;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public DriveTrain train;
+  public static DriveTrain train;
   public static XboxController controller;
   public static Joystick joy;
   public static JoystickButton button;
+  
+  public static FollowTrajectory trajectory;
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     train = new DriveTrain();
-    controller = new XboxController(Constants.XBOX_PORT);
-    joy = new Joystick(Constants.JOY_PORT);
-
+    controller = new XboxController(OIConstants.XBOX_PORT);
+    joy = new Joystick(OIConstants.JOY_PORT);
+    
+    trajectory = new FollowTrajectory(train);
+    
     
     // Configure the button bindings
     configureButtonBindings();
@@ -54,6 +61,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return trajectory;
   }
 }
