@@ -8,11 +8,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
+
 public class DriveForward extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final DriveTrain drive;
   /** Creates a new DriveForward. */
-  public DriveForward() {
+  public DriveForward(DriveTrain train) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(new DriveTrain());
+    drive = train;
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.

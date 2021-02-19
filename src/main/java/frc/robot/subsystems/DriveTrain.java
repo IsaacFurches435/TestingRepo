@@ -50,22 +50,22 @@ public class DriveTrain extends SubsystemBase {
     // Drive Train Used
     private final MecanumDrive drivetrain = new MecanumDrive(lefTalonSRX, lefTalonSRX2, rigTalonSRX2, rigTalonSRX2);
 
-    public Encoder lefEncoder1 = new Encoder(
+    private final Encoder lefEncoder1 = new Encoder(
         DriveConstants.FRONT_LEFT_ENCODER_PORTS[0], 
         DriveConstants.FRONT_LEFT_ENCODER_PORTS[1], 
         DriveConstants.FRONT_LEFT_ENCODER_REVERSE);
     
-    public Encoder lefEncoder2 = new Encoder(
+    private final Encoder lefEncoder2 = new Encoder(
         DriveConstants.BACK_LEFT_ENCODER_PORTS[0],
         DriveConstants.BACK_LEFT_ENCODER_PORTS[1],
         DriveConstants.BACK_LEFT_ENCODER_REVERSE);
 
-    public Encoder rigEncoder1 = new Encoder(
+    private final Encoder rigEncoder1 = new Encoder(
         DriveConstants.FRONT_RIGHT_ENCODER_PORTS[0],
         DriveConstants.FRONT_RIGHT_ENCODER_PORTS[1],
         DriveConstants.FRONT_RIGHT_ENCODER_REVERSE);
 
-    public Encoder rigEncoder2 = new Encoder(
+    private final Encoder rigEncoder2 = new Encoder(
         DriveConstants.BACK_RIGHT_ENCODER_PORTS[0],
         DriveConstants.BACK_RIGHT_ENCODER_PORTS[1],
         DriveConstants.BACK_RIGHT_ENCODER_REVERSE);
@@ -75,11 +75,11 @@ public class DriveTrain extends SubsystemBase {
     public final PIDController frontRightController = new PIDController(1, 0, 0);
     public final PIDController backRightController = new PIDController(1, 0, 0);
 
-    public final Gyro gyro = new AnalogGyro(0);
-    private final MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d());
+    private final Gyro gyro = new AnalogGyro(0);
+    MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d());
 
-    ChassisSpeeds speeds = new ChassisSpeeds(1.0, 3.0, 1.5);
-    public MecanumDriveWheelSpeeds wheelSpeeds = DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(speeds);
+    private ChassisSpeeds speeds = new ChassisSpeeds(1.0, 3.0, 1.5);
+    MecanumDriveWheelSpeeds wheelSpeeds = DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(speeds);
 
     public DriveTrain() {
         

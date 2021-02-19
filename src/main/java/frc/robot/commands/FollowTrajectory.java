@@ -19,26 +19,27 @@ import frc.robot.subsystems.DriveTrain;
 public class FollowTrajectory extends MecanumControllerCommand {
     
 
-    public FollowTrajectory(DriveTrain train) {
-        super(
+    public FollowTrajectory(DriveTrain driveTrain) {
+        
+        super(  
                 getTrajectory(), 
-                train::getPos, 
+                driveTrain::getPos, 
                 DriveConstants.FEED_FORWARD, 
                 DriveConstants.DRIVE_KINEMATICS,
                 new PIDController(AutoConstants.P_X_CONTROLLER, 0, 0),
                 new PIDController(AutoConstants.P_Y_CONTROLLER, 0, 0),
                 new ProfiledPIDController(AutoConstants.P_THETA_CONTROLLER, 0, 0, AutoConstants.CONSTRAINTS),
                 AutoConstants.MAX_SPEED,
-                train.frontLeftController,
-                train.backLeftController,
-                train.frontRightController,
-                train.backRightController,
-                train::getCurrentWheelSpeeds,
-                train::setSpeeds,
-                train);
+                driveTrain.frontLeftController,
+                driveTrain.backLeftController,
+                driveTrain.frontRightController,
+                driveTrain.backRightController,
+                driveTrain::getCurrentWheelSpeeds,
+                driveTrain::setSpeeds,
+                driveTrain);
         
-        train.resetOdemetry(getTrajectory().getInitialPose());
-
+        driveTrain.resetOdemetry(getTrajectory().getInitialPose());
+        driveTrain.resetEncoders();
     }
 
     
@@ -48,8 +49,8 @@ public class FollowTrajectory extends MecanumControllerCommand {
      */
     private static Trajectory getTrajectory() {
         String trajectoryJSON1 = "paths/Red_path1.wpilib.json";
-        String trajectoryJSON2 = "paths/Red_path2.wpilib.json";
-        String trajectoryJSON3 = "paths/Red_path3.wpilib.json";
+        // String trajectoryJSON2 = "paths/Red_path2.wpilib.json";
+        // String trajectoryJSON3 = "paths/Red_path3.wpilib.json";
         Trajectory trajectory = new Trajectory();
         try {
             Path trajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON1);

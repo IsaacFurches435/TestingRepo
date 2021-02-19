@@ -42,7 +42,7 @@ public final class Constants {
         public static final int[] FRONT_LEFT_ENCODER_PORTS = new int[] {0, 1};
         public static final int[] BACK_LEFT_ENCODER_PORTS = new int[] {2, 3};
         public static final int[] FRONT_RIGHT_ENCODER_PORTS = new int[] {4, 5};
-        public static final int[] BACK_RIGHT_ENCODER_PORTS = new int[] {5, 6};
+        public static final int[] BACK_RIGHT_ENCODER_PORTS = new int[] {6, 7};
 
         public static final boolean FRONT_LEFT_ENCODER_REVERSE = false;
         public static final boolean BACK_LEFT_ENCODER_REVERSE = true;
