@@ -37,9 +37,11 @@ public class FollowTrajectory extends MecanumControllerCommand {
                 driveTrain::getCurrentWheelSpeeds,
                 driveTrain::setSpeeds,
                 driveTrain);
+                andThen(() -> driveTrain.drive(0, 0, 0, false));
         
         driveTrain.resetOdemetry(getTrajectory().getInitialPose());
         driveTrain.resetEncoders();
+
     }
 
     
@@ -48,7 +50,7 @@ public class FollowTrajectory extends MecanumControllerCommand {
      * @return Trajectory
      */
     private static Trajectory getTrajectory() {
-        String trajectoryJSON1 = "paths/Red_path1.wpilib.json";
+        String trajectoryJSON1 = "paths/Red_Path1.wpilib.json";
         // String trajectoryJSON2 = "paths/Red_path2.wpilib.json";
         // String trajectoryJSON3 = "paths/Red_path3.wpilib.json";
         Trajectory trajectory = new Trajectory();

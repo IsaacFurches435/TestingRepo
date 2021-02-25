@@ -7,11 +7,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.FollowTrajectory;
+import frc.robot.commands.SetSafety;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -26,22 +29,28 @@ public class RobotContainer {
   public static DriveTrain train;
   public static XboxController controller;
   public static Joystick joy;
-  public static JoystickButton button;
-  
+
+  public static SendableChooser<Command> chooser;
+  public static Button setSafeButton;
   public static FollowTrajectory trajectory;
-  
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    
+    
     train = new DriveTrain();
     controller = new XboxController(OIConstants.XBOX_PORT);
     joy = new Joystick(OIConstants.JOY_PORT);
     
     trajectory = new FollowTrajectory(train);
     
-    
+    chooser = new SendableChooser<>();
+
+    setAutoOptions();
     // Configure the button bindings
     configureButtonBindings();
+    
   }
 
   /**
@@ -51,9 +60,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    button = new JoystickButton(joy, 1);
+    
+    setSafeButton = new JoystickButton(controller, OIConstants.XBOX_SAFE_BUTTON_PORT);
+    setSafeButton.toggleWhenPressed(new SetSafety());
+    
   }
 
+  private void setAutoOptions() {
+    chooser.setDefaultOption("None", null);
+    chooser.addOption("Follow Traject", trajectory);
+  }
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -61,6 +78,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return trajectory;
+    return chooser.getSelected();
   }
 }

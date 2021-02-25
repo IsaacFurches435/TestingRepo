@@ -44,6 +44,7 @@ public final class Constants {
         public static final int[] FRONT_RIGHT_ENCODER_PORTS = new int[] {4, 5};
         public static final int[] BACK_RIGHT_ENCODER_PORTS = new int[] {6, 7};
 
+        
         public static final boolean FRONT_LEFT_ENCODER_REVERSE = false;
         public static final boolean BACK_LEFT_ENCODER_REVERSE = true;
         public static final boolean FRONT_RIGHT_ENCODER_REVERSE = true;
@@ -77,6 +78,7 @@ public final class Constants {
     public static final class OIConstants {
         public static final int JOY_PORT = 0;
         public static final int XBOX_PORT = 1;
+        public static final int XBOX_SAFE_BUTTON_PORT = 1;
     }
 
     public static final class AutoConstants {
@@ -92,5 +94,14 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints CONSTRAINTS =
             new TrapezoidProfile.Constraints(
                 MAX_ANGULAR_RADIANS, MAX_ANGULAR_RADIANS_SQUARED);
+    }
+
+    public static final class LauncherConstants {
+        public static final int LAUNCH_PORT = 0;
+        public static final int INTAKE_PORT = 1;
+
+        public static final int[] LAUNCH_ENCODER_PORTS = new int[] {8, 9};
+
+        public static final int CONTINUOUS_MAX_CURRENT = 20;
     }
 }

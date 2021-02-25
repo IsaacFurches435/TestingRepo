@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -22,6 +24,8 @@ import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveMotorVoltages;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
@@ -32,7 +36,7 @@ public class DriveTrain extends SubsystemBase {
 
 
     
-    
+    private boolean isSafe;
 
     private double xSpeed;
     private double ySpeed;
@@ -81,6 +85,10 @@ public class DriveTrain extends SubsystemBase {
     private ChassisSpeeds speeds = new ChassisSpeeds(1.0, 3.0, 1.5);
     MecanumDriveWheelSpeeds wheelSpeeds = DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(speeds);
 
+    private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(3);
+    private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(3);
+    private final SlewRateLimiter zspeedLimiter = new SlewRateLimiter(3);
+
     public DriveTrain() {
         
         
@@ -108,6 +116,9 @@ public class DriveTrain extends SubsystemBase {
 
         ((IFollower) rigTalonSRX2).follow((IMotorController) rigTalonSRX);
 
+        SmartDashboard.putBoolean("isSafe", true);
+
+
     }
 
     
@@ -115,9 +126,9 @@ public class DriveTrain extends SubsystemBase {
     public void periodic() {
         // Track the input values
         // NOTE: Not actual speed values (eg., RPM)
-        SmartDashboard.putNumber("Xspeed", xSpeed);
-        SmartDashboard.putNumber("Yspeed", ySpeed);
-        SmartDashboard.putNumber("Zspeed", zSpeed);
+        // SmartDashboard.putNumber("Xspeed", xSpeed);
+        // SmartDashboard.putNumber("Yspeed", ySpeed);
+        // SmartDashboard.putNumber("Zspeed", zSpeed);
         
         
     }
@@ -130,16 +141,19 @@ public class DriveTrain extends SubsystemBase {
         odometry.resetPosition(pose, gyro.getRotation2d());
     }
 
-    public void drive(double xspeed, double yspeed, double turn, boolean fieldRelative) {
+    public void drive(double xspeed, double yspeed, double rotspeed, boolean fieldRelative) {
         xSpeed = xspeed;
-        ySpeed = -yspeed;
-        zSpeed = turn;
+        ySpeed = yspeed;
+        zSpeed = rotspeed;
 
         // determine wether you want to define the chassis speeds as being realtive from the field or by itself.
-        DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(fieldRelative 
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(xspeed, yspeed, turn, gyro.getRotation2d()) 
-        : new ChassisSpeeds(xspeed, yspeed, turn));
-        
+        MecanumDriveWheelSpeeds mecanumDriveWheelSpeeds = DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(fieldRelative 
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, zSpeed, gyro.getRotation2d()) 
+        : new ChassisSpeeds(xSpeed, ySpeed, zSpeed));
+
+
+        mecanumDriveWheelSpeeds.normalize(AutoConstants.MAX_SPEED);
+        setSpeeds(mecanumDriveWheelSpeeds);
     
     }
 
@@ -167,7 +181,11 @@ public class DriveTrain extends SubsystemBase {
         return lefEncoder1;
     }
 
-
+    public void setSafe(boolean isSafe) {
+        this.isSafe = isSafe;
+        drivetrain.setSafetyEnabled(this.isSafe);
+        SmartDashboard.putBoolean("isSafe", !this.isSafe);
+    }
 
     
     public MecanumDriveWheelSpeeds getCurrentWheelSpeeds() {
@@ -197,7 +215,6 @@ public class DriveTrain extends SubsystemBase {
         return gyro.getRate();
     }
 
-    
 
     
 
@@ -217,10 +234,10 @@ public class DriveTrain extends SubsystemBase {
       }
 
     
-    //   private void updateOdometry() {
-    //     odometry.update(gyro.getRotation2d(), getCurrentWheelSpeeds());
+      public void updateOdometry() {
+        odometry.update(gyro.getRotation2d(), getCurrentWheelSpeeds());
       
-    // }
+    }
     
 
 
