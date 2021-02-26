@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LauncherConstants;
 
 public class Launcher extends SubsystemBase {
-  private final SpeedController launch;
+  
 
   public Launcher() {
     super();

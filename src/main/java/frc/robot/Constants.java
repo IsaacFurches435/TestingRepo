@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveKinematics;
@@ -79,9 +80,12 @@ public final class Constants {
         public static final int JOY_PORT = 0;
         public static final int XBOX_PORT = 1;
         public static final int XBOX_SAFE_BUTTON_PORT = 1;
+
+        
     }
 
     public static final class AutoConstants {
+
         public static final double MAX_SPEED = 3.0;
         public static final double MAX_ACCEL = 3.0;
         public static final double MAX_ANGULAR_RADIANS = Math.PI;

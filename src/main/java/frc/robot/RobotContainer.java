@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.DriveForward;
 import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.SetSafety;
 import frc.robot.subsystems.DriveTrain;
@@ -30,7 +32,7 @@ public class RobotContainer {
   public static XboxController controller;
   public static Joystick joy;
 
-  public static SendableChooser<Command> chooser;
+  public static SendableChooser<Integer> chooser;
   public static Button setSafeButton;
   public static FollowTrajectory trajectory;
 
@@ -43,14 +45,36 @@ public class RobotContainer {
     controller = new XboxController(OIConstants.XBOX_PORT);
     joy = new Joystick(OIConstants.JOY_PORT);
     
-    trajectory = new FollowTrajectory(train);
+    
     
     chooser = new SendableChooser<>();
 
-    setAutoOptions();
+    
+
+    setOptionsAndDrive();
     // Configure the button bindings
     configureButtonBindings();
+
     
+  }
+
+  private void setOptionsAndDrive() {
+    chooser.setDefaultOption("Do nothing", 0);
+    chooser.addOption("Follow Traject", 1);
+    chooser.addOption("Drive Forward", 2);
+
+    train.setDefaultCommand(
+      new RunCommand(
+        () -> train.drive(
+          controller.getY(GenericHID.Hand.kLeft), 
+          controller.getX(GenericHID.Hand.kLeft), 
+          controller.getX(GenericHID.Hand.kRight), 
+          false), train));
+  }
+  
+
+  public SendableChooser<Integer> getChooser() {
+    return chooser;
   }
 
   /**
@@ -66,10 +90,7 @@ public class RobotContainer {
     
   }
 
-  private void setAutoOptions() {
-    chooser.setDefaultOption("None", null);
-    chooser.addOption("Follow Traject", trajectory);
-  }
+  
   
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -78,6 +99,14 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return chooser.getSelected();
+    switch (chooser.getSelected()) {
+      case 0:
+        return null;
+      case 1:
+        return (new FollowTrajectory(train));
+      case 2:
+        return (new DriveForward(train));
+    }
+    return null;
   }
 }

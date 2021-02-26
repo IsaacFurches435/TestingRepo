@@ -37,14 +37,14 @@ public class FollowTrajectory extends MecanumControllerCommand {
                 driveTrain::getCurrentWheelSpeeds,
                 driveTrain::setSpeeds,
                 driveTrain);
-                andThen(() -> driveTrain.drive(0, 0, 0, false));
+                
         
         driveTrain.resetOdemetry(getTrajectory().getInitialPose());
         driveTrain.resetEncoders();
+        
 
     }
 
-    
     /**
      * A method used to return a trajectory from a JSON file
      * @return Trajectory

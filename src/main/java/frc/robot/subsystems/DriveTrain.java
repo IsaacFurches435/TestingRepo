@@ -9,8 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.SlewRateLimiter;
+
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -24,7 +23,7 @@ import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveMotorVoltages;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
+
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
@@ -85,9 +84,9 @@ public class DriveTrain extends SubsystemBase {
     private ChassisSpeeds speeds = new ChassisSpeeds(1.0, 3.0, 1.5);
     MecanumDriveWheelSpeeds wheelSpeeds = DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(speeds);
 
-    private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(3);
-    private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(3);
-    private final SlewRateLimiter zspeedLimiter = new SlewRateLimiter(3);
+    // private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(3);
+    // private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(3);
+    // private final SlewRateLimiter zspeedLimiter = new SlewRateLimiter(3);
 
     public DriveTrain() {
         
@@ -116,7 +115,7 @@ public class DriveTrain extends SubsystemBase {
 
         ((IFollower) rigTalonSRX2).follow((IMotorController) rigTalonSRX);
 
-        SmartDashboard.putBoolean("isSafe", true);
+        SmartDashboard.putBoolean("isSafe", isSafe);
 
 
     }
@@ -141,7 +140,7 @@ public class DriveTrain extends SubsystemBase {
         odometry.resetPosition(pose, gyro.getRotation2d());
     }
 
-    public void drive(double xspeed, double yspeed, double rotspeed, boolean fieldRelative) {
+    public void drive(double yspeed, double xspeed, double rotspeed, boolean fieldRelative) {
         xSpeed = xspeed;
         ySpeed = yspeed;
         zSpeed = rotspeed;
@@ -184,7 +183,7 @@ public class DriveTrain extends SubsystemBase {
     public void setSafe(boolean isSafe) {
         this.isSafe = isSafe;
         drivetrain.setSafetyEnabled(this.isSafe);
-        SmartDashboard.putBoolean("isSafe", !this.isSafe);
+        SmartDashboard.putBoolean("isSafe", this.isSafe);
     }
 
     
@@ -232,6 +231,31 @@ public class DriveTrain extends SubsystemBase {
 
         
       }
+
+    public void setSpeeds(MecanumDriveWheelSpeeds speeds) {
+        final double frontLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontLeftMetersPerSecond);
+        final double frontRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontRightMetersPerSecond);
+        final double backLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearLeftMetersPerSecond);
+        final double backRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearRightMetersPerSecond);
+
+        final double frontLeftOutput =
+            frontLeftController.calculate(
+                lefEncoder1.getRate(), speeds.frontLeftMetersPerSecond);
+        final double frontRightOutput =
+            frontRightController.calculate(
+                rigEncoder1.getRate(), speeds.frontRightMetersPerSecond);
+        final double backLeftOutput =
+            backLeftController.calculate(
+                lefEncoder2.getRate(), speeds.rearLeftMetersPerSecond);
+        final double backRightOutput =
+            backRightController.calculate(
+                rigEncoder2.getRate(), speeds.rearRightMetersPerSecond);
+
+        lefTalonSRX.setVoltage(frontLeftOutput + frontLeftFeedforward);
+        rigTalonSRX.setVoltage(frontRightOutput + frontRightFeedforward);
+        lefTalonSRX2.setVoltage(backLeftOutput + backLeftFeedforward);
+        rigTalonSRX2.setVoltage(backRightOutput + backRightFeedforward);
+    }
 
     
       public void updateOdometry() {
