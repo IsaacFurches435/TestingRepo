@@ -17,7 +17,7 @@ public class Launcher extends SubsystemBase {
   public Launcher() {
     super();
     
-    launch = new PWMSparkMax(LauncherConstants.LAUNCH_PORT);
+    // launch = new PWMSparkMax(LauncherConstants.LAUNCH_PORT);
     
   }
 
