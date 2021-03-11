@@ -214,7 +214,13 @@ def startCamera(config):
                 if cv2.contourArea(contour) > cv2.contourArea(largest):
                     largest = contour
                     
-            
+                M = cv2.moments(largest)
+                if M["m00"] != 0:
+                    cX = int(M["m10"] / M["m00"])
+                    cY = int(M["m01"] / M["m00"])
+                else:
+                # set values as what you need in the situation
+                    cX, cY = 0, 0
 
                 rect = cv2.boundingRect(largest)
                 center = rect
@@ -222,6 +228,10 @@ def startCamera(config):
                 center = [int(dim) for dim in center]
             
                 cv2.rectangle(output_img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+                cv2.drawContours(output_img, [contour], -1, (0, 255, 0), 2)
+                cv2.circle(output_img, (cX, cY), 7, (255, 255, 255), -1)
+                cv2.putText(output_img, "center", (cX - 20, cY - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
             
                 x_list.append((center[0] - 720 / 2) / (720 / 2))
                 y_list.append((center[1] - 640 / 2) / (640 / 2))
