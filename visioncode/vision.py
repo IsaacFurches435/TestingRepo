@@ -229,15 +229,20 @@ def startCamera(config):
             
                 cv2.rectangle(output_img, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-                cv2.drawContours(output_img, [contour], -1, (0, 255, 0), 2)
+                cv2.drawContours(output_img, [largest], -1, (0, 255, 0), 2)
                 cv2.circle(output_img, (cX, cY), 7, (255, 255, 255), -1)
                 cv2.putText(output_img, "center", (cX - 20, cY - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
             
-                x_list.append((center[0] - 720 / 2) / (720 / 2))
-                y_list.append((center[1] - 640 / 2) / (640 / 2))
+                x_list.append((cX - 720 / 2) / (720 / 2))
+                y_list.append((cY - 640 / 2) / (640 / 2))
+
+                if((x_list[0] <= -0.78 and x_list[0] >= -0.83) and y_list[0] <= -0.73 and y_list[0] > -0.85):
+                    cv2.drawContours(output_img, [largest], -1, (0, 0, 255), 4)
+
 
         vision_nt.putNumberArray('targetX', x_list)
         vision_nt.putNumberArray('targetY', y_list)
+
 
         proccess_time = time.time() - start_time
         fps = 1 / proccess_time
