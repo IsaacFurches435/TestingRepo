@@ -13,12 +13,16 @@ import frc.robot.Constants.LauncherConstants;
 
 public class Launcher extends SubsystemBase {
   
-
+  
   public Launcher() {
     super();
     
     // launch = new PWMSparkMax(LauncherConstants.LAUNCH_PORT);
     
+  }
+
+  public double getAngle() {
+    return -1;
   }
 
   @Override

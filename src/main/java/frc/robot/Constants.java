@@ -60,7 +60,7 @@ public final class Constants {
             new Translation2d(-WHEEL_BASE/2, TRACK_WIDTH/2),
             new Translation2d(-WHEEL_BASE, -TRACK_WIDTH));
 
-        public static final int ENCODER_COUNTS_PER_REVOLUTION = 1024;
+        public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
         public static final double WHEEL_DIAMETER_METERS = 0.17;
 
         public static final double ENCODER_DISTANCE_PER_PULSE = 

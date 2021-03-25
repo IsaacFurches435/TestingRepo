@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -51,17 +52,13 @@ public class FollowTrajectory extends MecanumControllerCommand {
      */
     private static Trajectory getTrajectory() {
         String trajectoryJSON1 = "paths/Red_Path1.wpilib.json";
-        // String trajectoryJSON2 = "paths/Red_path2.wpilib.json";
-        // String trajectoryJSON3 = "paths/Red_path3.wpilib.json";
-        Trajectory trajectory = new Trajectory();
-        try {
-            Path trajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON1);
-            
-            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath1);
-        } catch(IOException e) {
-            DriverStation.reportError("Unable to open trajectory", e.getStackTrace());
-        }
+        String trajectoryJSON2 = "paths/Red_path2.wpilib.json";
+        String trajectoryJSON3 = "paths/Red_path3.wpilib.json";
 
-        return trajectory;
+        ArrayList<Trajectory> trajectory = new ArrayList<>(3);
+        
+        Path trajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON1);
+
+        return null;
     }
 }   

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix.motorcontrol.IFollower;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
@@ -10,11 +9,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 
+
+
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 
@@ -29,9 +30,9 @@ import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
 
-    
 
-    
+
+
 
 
     
@@ -81,8 +82,7 @@ public class DriveTrain extends SubsystemBase {
     private final Gyro gyro = new AnalogGyro(0);
     MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d());
 
-    private ChassisSpeeds speeds = new ChassisSpeeds(1.0, 3.0, 1.5);
-    MecanumDriveWheelSpeeds wheelSpeeds = DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(speeds);
+    
 
     // private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(3);
     // private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(3);
@@ -188,11 +188,13 @@ public class DriveTrain extends SubsystemBase {
 
     
     public MecanumDriveWheelSpeeds getCurrentWheelSpeeds() {
+        
         return new MecanumDriveWheelSpeeds(
             lefEncoder1.getRate(),
             lefEncoder2.getRate(),
             rigEncoder1.getRate(),
             rigEncoder2.getRate());
+        
     }
     
 
@@ -204,8 +206,8 @@ public class DriveTrain extends SubsystemBase {
         gyro.reset();
     }
 
-    public double getHeading() {
-        return gyro.getRotation2d().getDegrees();
+    public Rotation2d getHeading() {
+        return Rotation2d.fromDegrees(-gyro.getAngle());
     }
 
     
