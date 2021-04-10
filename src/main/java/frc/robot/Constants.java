@@ -80,7 +80,7 @@ public final class Constants {
         public static final int JOY_PORT = 0;
         public static final int XBOX_PORT = 1;
         public static final int XBOX_SAFE_BUTTON_PORT = 1;
-
+        public static final int JOY_SWITCH_MODE_BUTTON = 3;
         
     }
 
@@ -102,10 +102,21 @@ public final class Constants {
 
     public static final class LauncherConstants {
         public static final int LAUNCH_PORT = 0;
-        public static final int INTAKE_PORT = 1;
-
-        public static final int[] LAUNCH_ENCODER_PORTS = new int[] {8, 9};
+        public static final int PIVOT_PORT = 6;
+        public static final int INTAKE_PORT = 5;
+        public static final int DIGITAL_INPUT = 0;
+        public static final int DIGITAL_INPUT_2 = 1;
+        // public static final int[] LAUNCH_ENCODER_PORTS = new int[] {8, 9};
 
         public static final int CONTINUOUS_MAX_CURRENT = 20;
+
+    }
+
+    public static final class ElevatorConstants {
+        public static final int ELEVATOR_PORT = 7;
+    }
+
+    public static final class OtherConstants {
+        public static final int SENSOR_PORT = 0;
     }
 }

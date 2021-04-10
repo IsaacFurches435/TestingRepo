@@ -4,20 +4,24 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveForward;
-import frc.robot.commands.FollowTrajectory;
+// import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.SetSafety;
 import frc.robot.subsystems.DriveTrain;
+// import frc.robot.subsystems.Launcher;
+import frc.robot.util.JoystickAxis;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,8 +38,19 @@ public class RobotContainer {
 
   public static SendableChooser<Integer> chooser;
   public static Button setSafeButton;
-  public static FollowTrajectory trajectory;
+  public static Button switchMode;
+  // public static FollowTrajectory trajectory;
+  public static SendableChooser<Integer> mode_chooser;
 
+  public static JoystickAxis xAxis;
+  public static JoystickAxis yAxis;
+  public static JoystickAxis zAxis;
+
+  public static DoubleSupplier zSupplier;
+  public static DoubleSupplier xSupplier;
+  public static DoubleSupplier ySupplier;
+
+  // public static Launcher launch;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -44,11 +59,19 @@ public class RobotContainer {
     train = new DriveTrain();
     controller = new XboxController(OIConstants.XBOX_PORT);
     joy = new Joystick(OIConstants.JOY_PORT);
-    
-    
+    // launch = new Launcher();
+
+    mode_chooser = new SendableChooser<>();
     
     chooser = new SendableChooser<>();
 
+    yAxis = new JoystickAxis(joy, 0, 5.6, 10, 0, 0.1);
+    xAxis = new JoystickAxis(joy, 1, 3.2, 10, 0, 0.1);
+    zAxis = new JoystickAxis(joy, 2, 2.0, 10, 0, 0.1);
+
+    ySupplier = () -> yAxis.get();
+    xSupplier = () -> xAxis.get();
+    zSupplier = () -> zAxis.get();
     
 
     setOptionsAndDrive();
@@ -56,25 +79,35 @@ public class RobotContainer {
     configureButtonBindings();
 
     
-  }
+  } 
 
   private void setOptionsAndDrive() {
     chooser.setDefaultOption("Do nothing", 0);
     chooser.addOption("Follow Traject", 1);
     chooser.addOption("Drive Forward", 2);
 
-    train.setDefaultCommand(
-      new RunCommand(
-        () -> train.drive(
-          controller.getY(GenericHID.Hand.kLeft), 
-          controller.getX(GenericHID.Hand.kLeft), 
-          controller.getX(GenericHID.Hand.kRight), 
-          false), train));
+    mode_chooser.setDefaultOption("Normal Mode", 0);
+    mode_chooser.addOption("Normal Mode", 0);
+    mode_chooser.addOption("Encoder Mode", 1);
+
+    // train.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> train.drive(
+    //       controller.getY(GenericHID.Hand.kLeft), 
+    //       controller.getX(GenericHID.Hand.kLeft), 
+    //       controller.getX(GenericHID.Hand.kRight), 
+    //       false), train));
+
+    
   }
   
 
   public SendableChooser<Integer> getChooser() {
     return chooser;
+  }
+
+  public SendableChooser<Integer> getModeChooser() {
+    return mode_chooser;
   }
 
   /**
@@ -87,9 +120,27 @@ public class RobotContainer {
     
     setSafeButton = new JoystickButton(controller, OIConstants.XBOX_SAFE_BUTTON_PORT);
     setSafeButton.toggleWhenPressed(new SetSafety());
+
+    
+    // switchMode = new JoystickButton(joy, Constants.OIConstants.JOY_SWITCH_MODE_BUTTON);
+    // if (switchMode.get() && mode_chooser.getSelected() == 0) {
+    //   SmartDashboard.putBoolean("isEncoderMode", true);
+    // } else {
+    //   SmartDashboard.putBoolean("isEncoderMode", false);
+    // }
+ 
     
   }
 
+  public static int getMode() {
+    switch(mode_chooser.getSelected()) {
+      case 0:
+        return 0;
+      case 1:
+        return 1;
+    }
+    return -1;
+}
   
   
   /**
@@ -103,9 +154,9 @@ public class RobotContainer {
       case 0:
         return null;
       case 1:
-        return (new FollowTrajectory(train));
+        // return (new FollowTrajectory(train));
       case 2:
-        return (new DriveForward(train));
+        // return (new DriveForward(train));
     }
     return null;
   }

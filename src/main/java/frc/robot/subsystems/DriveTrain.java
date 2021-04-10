@@ -52,7 +52,7 @@ public class DriveTrain extends SubsystemBase {
     
 
     // Drive Train Used
-    private final MecanumDrive drivetrain = new MecanumDrive(lefTalonSRX, lefTalonSRX2, rigTalonSRX2, rigTalonSRX2);
+    private final MecanumDrive drivetrain = new MecanumDrive(rigTalonSRX2, lefTalonSRX2, rigTalonSRX, lefTalonSRX);
 
     private final Encoder lefEncoder1 = new Encoder(
         DriveConstants.FRONT_LEFT_ENCODER_PORTS[0], 
@@ -80,7 +80,7 @@ public class DriveTrain extends SubsystemBase {
     public final PIDController backRightController = new PIDController(1, 0, 0);
 
     private final Gyro gyro = new AnalogGyro(0);
-    MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d());
+    // MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d());
 
     
 
@@ -132,28 +132,36 @@ public class DriveTrain extends SubsystemBase {
         
     }
 
-    public Pose2d getPos() {
-        return odometry.getPoseMeters();
-    }
+    // public Pose2d getPos() {
+    //     // return odometry.getPoseMeters();
+    // }
 
     public void resetOdemetry(Pose2d pose) {
-        odometry.resetPosition(pose, gyro.getRotation2d());
+        // odometry.resetPosition(pose, gyro.getRotation2d());
     }
 
-    public void drive(double yspeed, double xspeed, double rotspeed, boolean fieldRelative) {
+    // public void drive(double yspeed, double xspeed, double rotspeed, boolean fieldRelative) {
+    //     xSpeed = xspeed;
+    //     ySpeed = yspeed;
+    //     zSpeed = rotspeed;
+
+    //     // determine wether you want to define the chassis speeds as being realtive from the field or by itself.
+    //     MecanumDriveWheelSpeeds mecanumDriveWheelSpeeds = DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(fieldRelative 
+    //     ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, zSpeed, gyro.getRotation2d()) 
+    //     : new ChassisSpeeds(xSpeed, ySpeed, zSpeed));
+
+
+    //     mecanumDriveWheelSpeeds.normalize(AutoConstants.MAX_SPEED);
+    //     setSpeeds(mecanumDriveWheelSpeeds);
+    
+    // }
+
+    public void drive(double yspeed, double xspeed, double rotspeed) {
         xSpeed = xspeed;
         ySpeed = yspeed;
         zSpeed = rotspeed;
 
-        // determine wether you want to define the chassis speeds as being realtive from the field or by itself.
-        MecanumDriveWheelSpeeds mecanumDriveWheelSpeeds = DriveConstants.DRIVE_KINEMATICS.toWheelSpeeds(fieldRelative 
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, zSpeed, gyro.getRotation2d()) 
-        : new ChassisSpeeds(xSpeed, ySpeed, zSpeed));
-
-
-        mecanumDriveWheelSpeeds.normalize(AutoConstants.MAX_SPEED);
-        setSpeeds(mecanumDriveWheelSpeeds);
-    
+        drivetrain.driveCartesian(ySpeed, xSpeed, zSpeed);
     }
 
 
@@ -235,10 +243,10 @@ public class DriveTrain extends SubsystemBase {
       }
 
     public void setSpeeds(MecanumDriveWheelSpeeds speeds) {
-        final double frontLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontLeftMetersPerSecond);
-        final double frontRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontRightMetersPerSecond);
-        final double backLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearLeftMetersPerSecond);
-        final double backRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearRightMetersPerSecond);
+        // final double frontLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontLeftMetersPerSecond);
+        // final double frontRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontRightMetersPerSecond);
+        // final double backLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearLeftMetersPerSecond);
+        // final double backRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearRightMetersPerSecond);
 
         final double frontLeftOutput =
             frontLeftController.calculate(
@@ -253,15 +261,14 @@ public class DriveTrain extends SubsystemBase {
             backRightController.calculate(
                 rigEncoder2.getRate(), speeds.rearRightMetersPerSecond);
 
-        lefTalonSRX.setVoltage(frontLeftOutput + frontLeftFeedforward);
-        rigTalonSRX.setVoltage(frontRightOutput + frontRightFeedforward);
-        lefTalonSRX2.setVoltage(backLeftOutput + backLeftFeedforward);
-        rigTalonSRX2.setVoltage(backRightOutput + backRightFeedforward);
-    }
+    //     lefTalonSRX.setVoltage(frontLeftOutput + frontLeftFeedforward);
+    //     rigTalonSRX.setVoltage(frontRightOutput + frontRightFeedforward);
+    //     lefTalonSRX2.setVoltage(backLeftOutput + backLeftFeedforward);
+    //     rigTalonSRX2.setVoltage(backRightOutput + backRightFeedforward);
+    // }
 
     
-      public void updateOdometry() {
-        odometry.update(gyro.getRotation2d(), getCurrentWheelSpeeds());
+     
       
     }
     

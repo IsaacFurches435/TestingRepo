@@ -5,7 +5,9 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -59,7 +61,11 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     
     SmartDashboard.putData("Auto Chooser", m_robotContainer.getChooser());
-
+    SmartDashboard.putData("Mode Chooser", m_robotContainer.getModeChooser());
+    
+    // SmartDashboard.putNumber("Train X", RobotContainer.xAxis.retriveDeadband(0.1));
+    // SmartDashboard.putNumber("Train Y", RobotContainer.yAxis.retriveDeadband(0.1));
+    // SmartDashboard.putNumber("Train Z", RobotContainer.zAxis.retriveDeadband(0.1));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -86,7 +92,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     
-    RobotContainer.train.updateOdometry();
+    // RobotContainer.train.updateOdometry();
   }
 
   @Override
@@ -106,8 +112,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    RobotContainer.train.drive(RobotContainer.joy.getY(), RobotContainer.joy.getX(), RobotContainer.joy.getZ(), false);
+  public void teleopPeriodic() {  
+    RobotContainer.train.drive(RobotContainer.joy.getY() * Math.abs(RobotContainer.joy.getY()), -RobotContainer.joy.getX() * Math.abs(RobotContainer.joy.getX()), RobotContainer.joy.getZ() * Math.abs(RobotContainer.joy.getZ()));
+    
   }
 
   @Override
@@ -119,6 +126,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-
+    
   }
 }
