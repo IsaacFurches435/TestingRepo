@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveForward;
 // import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.SetSafety;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Launcher;
 // import frc.robot.subsystems.Launcher;
 import frc.robot.util.JoystickAxis;
 
@@ -39,18 +41,21 @@ public class RobotContainer {
   public static SendableChooser<Integer> chooser;
   public static Button setSafeButton;
   public static Button switchMode;
-  // public static FollowTrajectory trajectory;
+  
   public static SendableChooser<Integer> mode_chooser;
 
   public static JoystickAxis xAxis;
   public static JoystickAxis yAxis;
   public static JoystickAxis zAxis;
 
+  public static JoystickButton launchButton;
+  public static JoystickButton povButton;
+
   public static DoubleSupplier zSupplier;
   public static DoubleSupplier xSupplier;
   public static DoubleSupplier ySupplier;
 
-  // public static Launcher launch;
+  public static Launcher launch;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -59,7 +64,7 @@ public class RobotContainer {
     train = new DriveTrain();
     controller = new XboxController(OIConstants.XBOX_PORT);
     joy = new Joystick(OIConstants.JOY_PORT);
-    // launch = new Launcher();
+    launch = new Launcher();
 
     mode_chooser = new SendableChooser<>();
     
@@ -117,9 +122,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    triggervalue = new JoystickButton(controller, 2);
     setSafeButton = new JoystickButton(controller, OIConstants.XBOX_SAFE_BUTTON_PORT);
     setSafeButton.toggleWhenPressed(new SetSafety());
+
 
     
     // switchMode = new JoystickButton(joy, Constants.OIConstants.JOY_SWITCH_MODE_BUTTON);

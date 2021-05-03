@@ -101,11 +101,11 @@ public final class Constants {
     }
 
     public static final class LauncherConstants {
-        public static final int LAUNCH_PORT = 0;
+        public static final int LAUNCH_PORT = 8;
         public static final int PIVOT_PORT = 6;
         public static final int INTAKE_PORT = 5;
-        public static final int DIGITAL_INPUT = 0;
-        public static final int DIGITAL_INPUT_2 = 1;
+        public static final int DIGITAL_INPUT = 8;
+        public static final int DIGITAL_INPUT_2 = 9;
         // public static final int[] LAUNCH_ENCODER_PORTS = new int[] {8, 9};
 
         public static final int CONTINUOUS_MAX_CURRENT = 20;
@@ -117,6 +117,6 @@ public final class Constants {
     }
 
     public static final class OtherConstants {
-        public static final int SENSOR_PORT = 0;
+        public static final int SENSOR_PORT = 9;
     }
 }

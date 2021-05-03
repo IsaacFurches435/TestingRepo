@@ -7,7 +7,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
-
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {  
     RobotContainer.train.drive(RobotContainer.joy.getY() * Math.abs(RobotContainer.joy.getY()), -RobotContainer.joy.getX() * Math.abs(RobotContainer.joy.getX()), RobotContainer.joy.getZ() * Math.abs(RobotContainer.joy.getZ()));
-    
+    RobotContainer.launch.rotatePiviot((int) RobotContainer.controller.getTriggerAxis(Hand.kLeft));
   }
 
   @Override
