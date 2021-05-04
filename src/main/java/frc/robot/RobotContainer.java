@@ -9,15 +9,17 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DriveForward;
+
 // import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.SetSafety;
 import frc.robot.subsystems.DriveTrain;
@@ -48,8 +50,9 @@ public class RobotContainer {
   public static JoystickAxis yAxis;
   public static JoystickAxis zAxis;
 
-  public static JoystickButton launchButton;
-  public static JoystickButton povButton;
+  public static JoystickButton intakeButton;
+  public static POVButton pivotButton;
+  public static Trigger launchTrigger;
 
   public static DoubleSupplier zSupplier;
   public static DoubleSupplier xSupplier;
@@ -122,20 +125,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    triggervalue = new JoystickButton(controller, 2);
+    
+    
     setSafeButton = new JoystickButton(controller, OIConstants.XBOX_SAFE_BUTTON_PORT);
     setSafeButton.toggleWhenPressed(new SetSafety());
 
+    intakeButton = new JoystickButton(controller, XboxController.Button.kA.value);
+    intakeButton.toggleWhenPressed(new RunCommand(() -> launch.intakeBall(intakeButton, 1.0)));
 
-    
-    // switchMode = new JoystickButton(joy, Constants.OIConstants.JOY_SWITCH_MODE_BUTTON);
-    // if (switchMode.get() && mode_chooser.getSelected() == 0) {
-    //   SmartDashboard.putBoolean("isEncoderMode", true);
-    // } else {
-    //   SmartDashboard.putBoolean("isEncoderMode", false);
-    // }
- 
-    
+    pivotButton = new POVButton(controller, controller.getPOV());
+    pivotButton.toggleWhenPressed(new RunCommand(() -> launch.rotatePiviot(controller.getPOV())));
+
+    launchTrigger = new Trigger(Launcher::get);
+    launchTrigger.toggleWhenActive(new RunCommand(() -> launch.launchBall(1.0)));
   }
 
   public static int getMode() {

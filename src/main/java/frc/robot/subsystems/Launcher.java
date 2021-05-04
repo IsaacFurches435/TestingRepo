@@ -7,18 +7,18 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMax;
+
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+
 
 
 public class Launcher extends SubsystemBase {
@@ -77,12 +77,30 @@ public class Launcher extends SubsystemBase {
         stopMotor();
     }
     
+    /**
+     * launches ball whenever the trigger is pressed
+     * @param triggerValue the value of the trigger 0.0-1.0
+     */
     public void launchBall (double triggerValue) {
         if (triggerValue >= 1) {
             launching.set(1.0);
         }
     }
 
+    /**
+     * intakes the ball whenever
+     * @param buttonTrigger the button used to trigger this method (A)
+     * @param speed the speed in which the intake will move the ball to launcher
+     */
+    public void intakeBall(JoystickButton buttonTrigger, double speed) {
+        if (buttonTrigger.get() == true) {
+            intake.set(speed);
+        }
+    }
+
+    /**
+     * stops the pivot motor from moving
+     */
     public void stopMotor() {
         pivot.set(ControlMode.PercentOutput, 0);
     }

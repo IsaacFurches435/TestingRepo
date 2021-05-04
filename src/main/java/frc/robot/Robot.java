@@ -114,7 +114,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {  
     RobotContainer.train.drive(RobotContainer.joy.getY() * Math.abs(RobotContainer.joy.getY()), -RobotContainer.joy.getX() * Math.abs(RobotContainer.joy.getX()), RobotContainer.joy.getZ() * Math.abs(RobotContainer.joy.getZ()));
-    RobotContainer.launch.rotatePiviot((int) RobotContainer.controller.getTriggerAxis(Hand.kLeft));
+    
+    
+    
   }
 
   @Override
