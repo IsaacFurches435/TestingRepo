@@ -106,7 +106,10 @@ public final class Constants {
         public static final int INTAKE_PORT = 0;
         public static final int DIGITAL_INPUT = 8;
         public static final int DIGITAL_INPUT_2 = 9;
-        // public static final int[] LAUNCH_ENCODER_PORTS = new int[] {8, 9};
+        public static final int[] PIVOT_ENCODER_PORTS = new int[] {10, 11};
+
+        public static final int PIVOT_PULSES_PER_REVOLUTION = 2048;
+        public static final double DISTANCE_PER_PULSE = 360f / PIVOT_PULSES_PER_REVOLUTION;
 
         public static final int CONTINUOUS_MAX_CURRENT = 20;
 
@@ -117,6 +120,6 @@ public final class Constants {
     }
 
     public static final class OtherConstants {
-        public static final int SENSOR_PORT = 9;
+        public static final int SENSOR_PORT = 0;
     }
 }

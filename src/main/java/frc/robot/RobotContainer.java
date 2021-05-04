@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
-
+import frc.robot.commands.LauncherTrigger;
 // import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.SetSafety;
 import frc.robot.subsystems.DriveTrain;
@@ -52,7 +52,7 @@ public class RobotContainer {
 
   public static JoystickButton intakeButton;
   public static POVButton pivotButton;
-  public static Trigger launchTrigger;
+  public static LauncherTrigger launchTrigger;
 
   public static DoubleSupplier zSupplier;
   public static DoubleSupplier xSupplier;
@@ -136,7 +136,7 @@ public class RobotContainer {
     pivotButton = new POVButton(controller, controller.getPOV());
     pivotButton.toggleWhenPressed(new RunCommand(() -> launch.rotatePiviot(controller.getPOV())));
 
-    launchTrigger = new Trigger();
+    launchTrigger = new LauncherTrigger();
     launchTrigger.toggleWhenActive(new RunCommand(() -> launch.launchBall(1.0)));
   }
 
