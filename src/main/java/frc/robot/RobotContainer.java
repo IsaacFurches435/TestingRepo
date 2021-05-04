@@ -136,7 +136,7 @@ public class RobotContainer {
     pivotButton = new POVButton(controller, controller.getPOV());
     pivotButton.toggleWhenPressed(new RunCommand(() -> launch.rotatePiviot(controller.getPOV())));
 
-    launchTrigger = new Trigger(Launcher::get);
+    launchTrigger = new Trigger();
     launchTrigger.toggleWhenActive(new RunCommand(() -> launch.launchBall(1.0)));
   }
 
@@ -169,3 +169,4 @@ public class RobotContainer {
     return null;
   }
 }
+

@@ -13,11 +13,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.Spark;
-
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 
 
@@ -81,10 +83,8 @@ public class Launcher extends SubsystemBase {
      * launches ball whenever the trigger is pressed
      * @param triggerValue the value of the trigger 0.0-1.0
      */
-    public void launchBall (double triggerValue) {
-        if (triggerValue >= 1) {
-            launching.set(1.0);
-        }
+    public void launchBall (double speed) {
+        launching.set(speed);
     }
 
     /**
@@ -112,4 +112,7 @@ public class Launcher extends SubsystemBase {
         SmartDashboard.putBoolean("Top State", getTopSwitchState());
         SmartDashboard.putBoolean("Bottom State", getBottomSwitchState());
     }
+
+    
 }
+
