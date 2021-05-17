@@ -54,25 +54,25 @@ public class DriveTrain extends SubsystemBase {
     // Drive Train Used
     private final MecanumDrive drivetrain = new MecanumDrive(rigTalonSRX2, lefTalonSRX2, rigTalonSRX, lefTalonSRX);
 
-    private final Encoder lefEncoder1 = new Encoder(
-        DriveConstants.FRONT_LEFT_ENCODER_PORTS[0], 
-        DriveConstants.FRONT_LEFT_ENCODER_PORTS[1], 
-        DriveConstants.FRONT_LEFT_ENCODER_REVERSE);
+    // private final Encoder lefEncoder1 = new Encoder(
+    //     DriveConstants.FRONT_LEFT_ENCODER_PORTS[0], 
+    //     DriveConstants.FRONT_LEFT_ENCODER_PORTS[1], 
+    //     DriveConstants.FRONT_LEFT_ENCODER_REVERSE);
     
-    private final Encoder lefEncoder2 = new Encoder(
-        DriveConstants.BACK_LEFT_ENCODER_PORTS[0],
-        DriveConstants.BACK_LEFT_ENCODER_PORTS[1],
-        DriveConstants.BACK_LEFT_ENCODER_REVERSE);
+    // private final Encoder lefEncoder2 = new Encoder(
+    //     DriveConstants.BACK_LEFT_ENCODER_PORTS[0],
+    //     DriveConstants.BACK_LEFT_ENCODER_PORTS[1],
+    //     DriveConstants.BACK_LEFT_ENCODER_REVERSE);
 
-    private final Encoder rigEncoder1 = new Encoder(
-        DriveConstants.FRONT_RIGHT_ENCODER_PORTS[0],
-        DriveConstants.FRONT_RIGHT_ENCODER_PORTS[1],
-        DriveConstants.FRONT_RIGHT_ENCODER_REVERSE);
+    // private final Encoder rigEncoder1 = new Encoder(
+    //     DriveConstants.FRONT_RIGHT_ENCODER_PORTS[0],
+    //     DriveConstants.FRONT_RIGHT_ENCODER_PORTS[1],
+    //     DriveConstants.FRONT_RIGHT_ENCODER_REVERSE);
 
-    private final Encoder rigEncoder2 = new Encoder(
-        DriveConstants.BACK_RIGHT_ENCODER_PORTS[0],
-        DriveConstants.BACK_RIGHT_ENCODER_PORTS[1],
-        DriveConstants.BACK_RIGHT_ENCODER_REVERSE);
+    // private final Encoder rigEncoder2 = new Encoder(
+    //     DriveConstants.BACK_RIGHT_ENCODER_PORTS[0],
+    //     DriveConstants.BACK_RIGHT_ENCODER_PORTS[1],
+    //     DriveConstants.BACK_RIGHT_ENCODER_REVERSE);
 
     public final PIDController frontLeftController = new PIDController(1, 0, 0);
     public final PIDController backLeftController = new PIDController(1, 0, 0);
@@ -91,10 +91,10 @@ public class DriveTrain extends SubsystemBase {
     public DriveTrain() {
         
         
-        lefEncoder1.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-        lefEncoder2.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-        rigEncoder1.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-        rigEncoder2.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+        // lefEncoder1.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+        // lefEncoder2.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+        // rigEncoder1.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+        // rigEncoder2.setDistancePerPulse(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
             
         // Start With a clean state (Make sure everything is correctly instantiated.)
         // NOTE: I stole(borrowed) this from RI3D, may subject to change
@@ -166,27 +166,27 @@ public class DriveTrain extends SubsystemBase {
 
 
     public void resetEncoders() {
-        lefEncoder1.reset();
-        lefEncoder2.reset();
-        rigEncoder1.reset();
-        rigEncoder2.reset();
+        // lefEncoder1.reset();
+        // lefEncoder2.reset();
+        // rigEncoder1.reset();
+        // rigEncoder2.reset();
     }
 
-    public Encoder getFrontLeftEncoder() {
-        return lefEncoder1;
-    }
+    // public Encoder getFrontLeftEncoder() {
+    //     return lefEncoder1;
+    // }
 
-    public Encoder getBackLeftEncoder() {
-        return lefEncoder1;
-    }
+    // public Encoder getBackLeftEncoder() {
+    //     return lefEncoder1;
+    // }
 
-    public Encoder getFrontRightEncoder() {
-        return lefEncoder1;
-    }
+    // public Encoder getFrontRightEncoder() {
+    //     return lefEncoder1;
+    // }
 
-    public Encoder getBackRightEncoder() {
-        return lefEncoder1;
-    }
+    // public Encoder getBackRightEncoder() {
+    //     return lefEncoder1;
+    // }
 
     public void setSafe(boolean isSafe) {
         this.isSafe = isSafe;
@@ -195,15 +195,15 @@ public class DriveTrain extends SubsystemBase {
     }
 
     
-    public MecanumDriveWheelSpeeds getCurrentWheelSpeeds() {
+    // public MecanumDriveWheelSpeeds getCurrentWheelSpeeds() {
         
-        return new MecanumDriveWheelSpeeds(
-            lefEncoder1.getRate(),
-            lefEncoder2.getRate(),
-            rigEncoder1.getRate(),
-            rigEncoder2.getRate());
+    //     return new MecanumDriveWheelSpeeds(
+    //         // lefEncoder1.getRate(),
+    //         // lefEncoder2.getRate(),
+    //         // rigEncoder1.getRate(),
+    //         // rigEncoder2.getRate());
         
-    }
+    // }
     
 
     public void setMaxOutput(double maxOutput) {
@@ -242,24 +242,24 @@ public class DriveTrain extends SubsystemBase {
         
       }
 
-    public void setSpeeds(MecanumDriveWheelSpeeds speeds) {
-        // final double frontLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontLeftMetersPerSecond);
-        // final double frontRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontRightMetersPerSecond);
-        // final double backLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearLeftMetersPerSecond);
-        // final double backRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearRightMetersPerSecond);
+    // public void setSpeeds(MecanumDriveWheelSpeeds speeds) {
+    //     // final double frontLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontLeftMetersPerSecond);
+    //     // final double frontRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.frontRightMetersPerSecond);
+    //     // final double backLeftFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearLeftMetersPerSecond);
+    //     // final double backRightFeedforward = DriveConstants.FEED_FORWARD.calculate(speeds.rearRightMetersPerSecond);
 
-        final double frontLeftOutput =
-            frontLeftController.calculate(
-                lefEncoder1.getRate(), speeds.frontLeftMetersPerSecond);
-        final double frontRightOutput =
-            frontRightController.calculate(
-                rigEncoder1.getRate(), speeds.frontRightMetersPerSecond);
-        final double backLeftOutput =
-            backLeftController.calculate(
-                lefEncoder2.getRate(), speeds.rearLeftMetersPerSecond);
-        final double backRightOutput =
-            backRightController.calculate(
-                rigEncoder2.getRate(), speeds.rearRightMetersPerSecond);
+    //     final double frontLeftOutput =
+    //         frontLeftController.calculate(
+    //             lefEncoder1.getRate(), speeds.frontLeftMetersPerSecond);
+    //     final double frontRightOutput =
+    //         frontRightController.calculate(
+    //             rigEncoder1.getRate(), speeds.frontRightMetersPerSecond);
+    //     final double backLeftOutput =
+    //         backLeftController.calculate(
+    //             lefEncoder2.getRate(), speeds.rearLeftMetersPerSecond);
+    //     final double backRightOutput =
+    //         backRightController.calculate(
+    //             rigEncoder2.getRate(), speeds.rearRightMetersPerSecond);
 
     //     lefTalonSRX.setVoltage(frontLeftOutput + frontLeftFeedforward);
     //     rigTalonSRX.setVoltage(frontRightOutput + frontRightFeedforward);
@@ -274,4 +274,4 @@ public class DriveTrain extends SubsystemBase {
     
 
 
-}
+

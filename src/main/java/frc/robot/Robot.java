@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {  
     RobotContainer.train.drive(RobotContainer.joy.getY() * Math.abs(RobotContainer.joy.getY()), -RobotContainer.joy.getX() * Math.abs(RobotContainer.joy.getX()), RobotContainer.joy.getZ() * Math.abs(RobotContainer.joy.getZ()));
     
-    
+    RobotContainer.launch.rotatePiviot(RobotContainer.controller.getPOV());
     
   }
 

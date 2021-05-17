@@ -131,10 +131,9 @@ public class RobotContainer {
     setSafeButton.toggleWhenPressed(new SetSafety());
 
     intakeButton = new JoystickButton(controller, XboxController.Button.kA.value);
-    intakeButton.toggleWhenPressed(new RunCommand(() -> launch.intakeBall(intakeButton, 1.0)));
+    intakeButton.whenHeld(new RunCommand(() -> launch.intakeBall(intakeButton, -0.5)));
 
-    pivotButton = new POVButton(controller, controller.getPOV());
-    pivotButton.toggleWhenPressed(new RunCommand(() -> launch.rotatePiviot(controller.getPOV())));
+    
 
     launchTrigger = new LauncherTrigger();
     launchTrigger.toggleWhenActive(new RunCommand(() -> launch.launchBall(1.0)));

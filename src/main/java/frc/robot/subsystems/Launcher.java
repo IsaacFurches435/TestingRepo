@@ -49,30 +49,32 @@ public class Launcher extends SubsystemBase {
         bottomdigital = new DigitalInput(Constants.LauncherConstants.DIGITAL_INPUT_2);
         angleRotation = new Encoder(Constants.LauncherConstants.PIVOT_ENCODER_PORTS[0], Constants.LauncherConstants.PIVOT_ENCODER_PORTS[1]);
         
-
+        
         angleRotation.setDistancePerPulse(Constants.LauncherConstants.DISTANCE_PER_PULSE);
+        angleRotation.setMaxPeriod(1.5);
+        
     }
     /**
      * returns the state of the top digital input as well as stops the pivot motor from moving
      * @return the state of the top-digital input
      */
     private boolean getTopSwitchState() {
-        if (topdigital.get() == true) {
-            stopMotor();
-            return topdigital.get(); 
+        if (topdigital.get()) {
+            // stopMotor();
+            return true;
         }
-        return topdigital.get();
+        return false;
     }
     /**
      * returns the state of the bottom digital input as well as stops the pivot motor from moving
      * @return the state of bottom-digital input
      */
     private boolean getBottomSwitchState() {
-        if (bottomdigital.get() == true) {
-            stopMotor();
-            return bottomdigital.get();
+        if (bottomdigital.get()) {
+            // stopMotor();
+            return true;
         }
-        return bottomdigital.get();
+        return false;
     }
     
     /**
@@ -80,19 +82,36 @@ public class Launcher extends SubsystemBase {
      * @param state is either 0 or 180
      */
     public void rotatePiviot(int state) {
-        
         switch(state) {
             case 0:
-                pivot.set(ControlMode.PercentOutput, 80);
+                if (getBottomSwitchState()) {
+                    System.out.println("          1");
+                    pivot.set(ControlMode.PercentOutput, 0);
+                } else {
+                    System.out.println("          2");
+                    pivot.set(ControlMode.PercentOutput, 80);
+                }
+                break;
+                
             case 180:
-                pivot.set(ControlMode.PercentOutput, -80);
-        }
-        stopMotor();
+                if (getTopSwitchState()) {
+                    System.out.println("          3");
+                    pivot.set(ControlMode.PercentOutput, 0);
+                } else {
+                    System.out.println("          4");
+                    pivot.set(ControlMode.PercentOutput, -80);
+                }
+                break;
+            default:
+                System.out.println("          5");
+                pivot.set(ControlMode.PercentOutput, 0);
+        }   
+        
     }
     
     /**
      * launches ball whenever the trigger is pressed
-     * @param triggerValue the value of the trigger 0.0-1.0
+     * @param speed the speed in which the launcher is moving
      */
     public void launchBall (double speed) {
         launching.set(speed);
@@ -112,29 +131,35 @@ public class Launcher extends SubsystemBase {
     /**
      * stops the pivot motor from moving
      */
-    public void stopMotor() {
-        pivot.set(ControlMode.PercentOutput, 0);
-    }
+    // public void stopMotor() {
+    //     pivot.set(ControlMode.PercentOutput, 0);
+    // }
 
     private double getAngle() {
         
         double angle = angleRotation.getDistance();
         
-        if (getBottomSwitchState() == false) {
+        if (getBottomSwitchState() == true) {
             angleRotation.reset();
-            angleRotation.setReverseDirection(false);
+            
             angle = angleRotation.getDistance() + 20;
+        }
 
-        } else if (getTopSwitchState() == false) {
+        if (getTopSwitchState() == true) {
             angleRotation.reset();
-            angleRotation.setReverseDirection(true);
             angle = angleRotation.getDistance() + 40;
-        } else if (getBottomSwitchState() && getTopSwitchState()) {
+        } 
+        
+        if (getBottomSwitchState() == false && getTopSwitchState() == false) {
             if (pivot.getMotorOutputVoltage() < 0) {
                 angle += angleRotation.getDistance();
             } else {
                 angle -= angleRotation.getDistance();
             }
+        }
+
+        if (angleRotation.getStopped() == true) {
+            // stopMotor();
         }
 
         return angle % 360;
@@ -145,9 +170,8 @@ public class Launcher extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putBoolean("Top State", getTopSwitchState());
         SmartDashboard.putBoolean("Bottom State", getBottomSwitchState());
-
-        
         SmartDashboard.putNumber("Pivot Angle", getAngle());
+
     }
 
     
