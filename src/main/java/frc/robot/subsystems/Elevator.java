@@ -18,10 +18,10 @@ public class Elevator extends SubsystemBase {
     this.elevator = new WPI_TalonSRX(ElevatorConstants.ELEVATOR_PORT);
   }
 
-  public void moveElevator() {
-    if (RobotContainer.controller.getY(GenericHID.Hand.kLeft) > 0.5) {
+  public void moveElevator(double state) {
+    if (state > 0.5) {
       this.elevator.set(0.5);
-    } else if (RobotContainer.controller.getY(GenericHID.Hand.kLeft) < 0.5) {
+    } else if (state < 0.5) {
       this.elevator.set(-0.5);
     } else {
       this.elevator.set(0);

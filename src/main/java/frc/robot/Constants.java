@@ -40,10 +40,10 @@ public final class Constants {
 
         public static final int CONTINUOUS_MAX_CURRENT = 40;
 
-        public static final int[] FRONT_LEFT_ENCODER_PORTS = new int[] {0, 1};
-        public static final int[] BACK_LEFT_ENCODER_PORTS = new int[] {2, 3};
-        public static final int[] FRONT_RIGHT_ENCODER_PORTS = new int[] {4, 5};
-        public static final int[] BACK_RIGHT_ENCODER_PORTS = new int[] {6, 7};
+        // public static final int[] FRONT_LEFT_ENCODER_PORTS = new int[] {0, 1};
+        // public static final int[] BACK_LEFT_ENCODER_PORTS = new int[] {2, 3};
+        // public static final int[] FRONT_RIGHT_ENCODER_PORTS = new int[] {4, 5};
+        // public static final int[] BACK_RIGHT_ENCODER_PORTS = new int[] {6, 7};
 
         
         public static final boolean FRONT_LEFT_ENCODER_REVERSE = false;
@@ -81,6 +81,7 @@ public final class Constants {
         public static final int XBOX_PORT = 1;
         public static final int XBOX_SAFE_BUTTON_PORT = 1;
         public static final int JOY_SWITCH_MODE_BUTTON = 3;
+        public static final int XBOX_COMPRESSOR_BUTTON = 3;
         
     }
 
@@ -103,7 +104,7 @@ public final class Constants {
     public static final class LauncherConstants {
         public static final int LAUNCH_PORT = 8;
         public static final int PIVOT_PORT = 6;
-        public static final int INTAKE_PORT = 0;
+        public static final int INTAKE_PORT = 9;
         public static final int DIGITAL_INPUT = 0;
         public static final int DIGITAL_INPUT_2 = 1;
         public static final int[] PIVOT_ENCODER_PORTS = new int[] {10, 11};
@@ -115,11 +116,17 @@ public final class Constants {
 
     }
 
+    public static final class ClimberConstants {
+        public static final int FORWARD_CHANNEL = 0;
+        public static final int REVERSE_CHANNEL = 1;
+    }
+
     public static final class ElevatorConstants {
         public static final int ELEVATOR_PORT = 7;
     }
 
     public static final class OtherConstants {
         public static final int SENSOR_PORT = 0;
+        public static final double VALUE_TO_INCHES = 0.125;
     }
 }

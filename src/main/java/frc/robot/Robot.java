@@ -62,6 +62,10 @@ public class Robot extends TimedRobot {
     
     SmartDashboard.putData("Auto Chooser", m_robotContainer.getChooser());
     SmartDashboard.putData("Mode Chooser", m_robotContainer.getModeChooser());
+
+    
+
+    
     
     // SmartDashboard.putNumber("Train X", RobotContainer.xAxis.retriveDeadband(0.1));
     // SmartDashboard.putNumber("Train Y", RobotContainer.yAxis.retriveDeadband(0.1));
@@ -102,6 +106,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+
+    
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -114,14 +121,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {  
     RobotContainer.train.drive(RobotContainer.joy.getY() * Math.abs(RobotContainer.joy.getY()), -RobotContainer.joy.getX() * Math.abs(RobotContainer.joy.getX()), RobotContainer.joy.getZ() * Math.abs(RobotContainer.joy.getZ()));
-    
-    RobotContainer.launch.rotatePiviot(RobotContainer.controller.getPOV());
+    RobotContainer.launch.rotatePiviot(RobotContainer.controller.getY(Hand.kRight));
+    RobotContainer.elevator.moveElevator(RobotContainer.controller.getY(Hand.kLeft));
     
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
+    RobotContainer.climber.switchCompressor(true);
     CommandScheduler.getInstance().cancelAll();
   }
 

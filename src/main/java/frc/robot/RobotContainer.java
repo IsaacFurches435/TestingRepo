@@ -22,7 +22,10 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LauncherTrigger;
 // import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.SetSafety;
+import frc.robot.commands.SwitchCompressorState;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Launcher;
 // import frc.robot.subsystems.Launcher;
 import frc.robot.util.JoystickAxis;
@@ -39,11 +42,14 @@ public class RobotContainer {
   public static DriveTrain train;
   public static XboxController controller;
   public static Joystick joy;
+  public static Elevator elevator;
+  public static Climber climber;
 
   public static SendableChooser<Integer> chooser;
   public static Button setSafeButton;
   public static Button switchMode;
-  
+  public static Button switchCompress;
+
   public static SendableChooser<Integer> mode_chooser;
 
   public static JoystickAxis xAxis;
@@ -53,6 +59,7 @@ public class RobotContainer {
   public static JoystickButton intakeButton;
   public static POVButton pivotButton;
   public static LauncherTrigger launchTrigger;
+  public static SwitchCompressorState compressorState;
 
   public static DoubleSupplier zSupplier;
   public static DoubleSupplier xSupplier;
@@ -68,6 +75,8 @@ public class RobotContainer {
     controller = new XboxController(OIConstants.XBOX_PORT);
     joy = new Joystick(OIConstants.JOY_PORT);
     launch = new Launcher();
+    elevator = new Elevator();
+    climber = new Climber();
 
     mode_chooser = new SendableChooser<>();
     
@@ -131,9 +140,11 @@ public class RobotContainer {
     setSafeButton.toggleWhenPressed(new SetSafety());
 
     intakeButton = new JoystickButton(controller, XboxController.Button.kA.value);
-    intakeButton.whenHeld(new RunCommand(() -> launch.intakeBall(intakeButton, -0.5)));
+    intakeButton.whenHeld(new RunCommand(() -> launch.intakeBall(intakeButton, -0.3)));
 
     
+    // compressorState = new SwitchCompressorState();
+    // compressorState.toggleWhenActive(new RunCommand(() -> climber.switchCompressor(state)));
 
     launchTrigger = new LauncherTrigger();
     launchTrigger.toggleWhenActive(new RunCommand(() -> launch.launchBall(1.0)));

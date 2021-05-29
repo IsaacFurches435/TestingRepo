@@ -6,28 +6,28 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import frc.robot.util.Map;
+
 
 
 
 public class Launcher extends SubsystemBase {
 
     private CANSparkMax launching;
-    private Spark intake;
+    private WPI_TalonSRX intake;
     private VictorSPX pivot;
 
     private DigitalInput topdigital;
@@ -35,21 +35,23 @@ public class Launcher extends SubsystemBase {
 
     private Encoder angleRotation;
     
+    private Map controllerToPercentageMap;
 
     
 
     /**
      * Creates a Launcher object to track and manage the movement of the launcher.
      */
-    public Launcher() {
+    public Launcher() { 
         launching = new CANSparkMax(Constants.LauncherConstants.LAUNCH_PORT, MotorType.kBrushless);
-        intake = new Spark(Constants.LauncherConstants.INTAKE_PORT);
+        intake = new WPI_TalonSRX(Constants.LauncherConstants.INTAKE_PORT);
         pivot = new VictorSPX(Constants.LauncherConstants.PIVOT_PORT);
         topdigital = new DigitalInput(Constants.LauncherConstants.DIGITAL_INPUT);
         bottomdigital = new DigitalInput(Constants.LauncherConstants.DIGITAL_INPUT_2);
         angleRotation = new Encoder(Constants.LauncherConstants.PIVOT_ENCODER_PORTS[0], Constants.LauncherConstants.PIVOT_ENCODER_PORTS[1]);
         
-        
+        controllerToPercentageMap = new Map(-1, 1, -100, 100);
+
         angleRotation.setDistancePerPulse(Constants.LauncherConstants.DISTANCE_PER_PULSE);
         angleRotation.setMaxPeriod(1.5);
         
@@ -81,31 +83,52 @@ public class Launcher extends SubsystemBase {
      * rotates the launcher in either the clockwise or counter-clockwise rotation.
      * @param state is either 0 or 180
      */
-    public void rotatePiviot(int state) {
-        switch(state) {
-            case 0:
-                if (getBottomSwitchState()) {
-                    System.out.println("          1");
-                    pivot.set(ControlMode.PercentOutput, 0);
-                } else {
-                    System.out.println("          2");
-                    pivot.set(ControlMode.PercentOutput, 80);
-                }
-                break;
+    public void rotatePiviot(double state) {
+        // switch(state) {
+        //     case 0:
+        //         if (getBottomSwitchState()) {
+        //             System.out.println("          1");
+        //             pivot.set(ControlMode.PercentOutput, 0);
+        //         } else {
+        //             System.out.println("          2");
+        //             pivot.set(ControlMode.PercentOutput, 80);
+        //         }
+        //         break;
                 
-            case 180:
-                if (getTopSwitchState()) {
-                    System.out.println("          3");
-                    pivot.set(ControlMode.PercentOutput, 0);
-                } else {
-                    System.out.println("          4");
-                    pivot.set(ControlMode.PercentOutput, -80);
-                }
-                break;
-            default:
-                System.out.println("          5");
+        //     case 180:
+        //         if (getTopSwitchState()) {
+        //             System.out.println("          3");
+        //             pivot.set(ControlMode.PercentOutput, 0);
+        //         } else {
+        //             System.out.println("          4");
+        //             pivot.set(ControlMode.PercentOutput, -80);
+        //         }
+        //         break;
+        //     default:
+        //         System.out.println("          5");
+        //         pivot.set(ControlMode.PercentOutput, 0);
+        // }
+
+        if (state < 0) {
+            if (getBottomSwitchState()) {
+                System.out.println("          1");
                 pivot.set(ControlMode.PercentOutput, 0);
-        }   
+            } else {
+                System.out.println("          2");
+                pivot.set(ControlMode.PercentOutput, controllerToPercentageMap.getNewValue(-state)); // reverses state beacuse controller joystick is opp of what is expected
+            }
+        } else if (state > 0) {
+            if (getTopSwitchState()) {
+                System.out.println("          3");
+                pivot.set(ControlMode.PercentOutput, 0);
+            } else {
+                System.out.println("          4");
+                pivot.set(ControlMode.PercentOutput, controllerToPercentageMap.getNewValue(-state));
+            }
+        } else {
+            System.out.println("          5");
+            pivot.set(ControlMode.PercentOutput, 0);
+        }
         
     }
     
