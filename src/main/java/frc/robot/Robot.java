@@ -10,8 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-
+import frc.robot.sensors.DistanceSensor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -27,7 +26,9 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
+  // static {
+  //   DistanceSensor.class.toString();
+  // }
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -37,7 +38,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    
     
     
   }
@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
     
     SmartDashboard.putData("Auto Chooser", m_robotContainer.getChooser());
     SmartDashboard.putData("Mode Chooser", m_robotContainer.getModeChooser());
-
+    DistanceSensor.updateDashboard();
     
 
     
@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
 
-    
+    RobotContainer.climber.switchCompressor(true);
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -124,12 +124,14 @@ public class Robot extends TimedRobot {
     RobotContainer.launch.rotatePiviot(RobotContainer.controller.getY(Hand.kRight));
     RobotContainer.elevator.moveElevator(RobotContainer.controller.getY(Hand.kLeft));
     
+    RobotContainer.launch.intakeBall(RobotContainer.controller.getAButton() ? -0.3 : 0);
+    RobotContainer.launch.launchBall(RobotContainer.controller.getTriggerAxis(Hand.kLeft) >= 1 ? 0.5 : 0);
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
-    RobotContainer.climber.switchCompressor(true);
+    
     CommandScheduler.getInstance().cancelAll();
   }
 

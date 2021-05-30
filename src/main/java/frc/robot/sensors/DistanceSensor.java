@@ -12,7 +12,7 @@ import frc.robot.Constants;
 public class DistanceSensor {
     private static final AnalogInput mb1013 = new AnalogInput(Constants.OtherConstants.SENSOR_PORT);
     
-    public static double getValue() {
+    private static double getValue() {
         return mb1013.getVoltage();
     }
 

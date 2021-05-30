@@ -126,7 +126,7 @@ public final class Constants {
     }
 
     public static final class OtherConstants {
-        public static final int SENSOR_PORT = 0;
+        public static final int SENSOR_PORT = 3;
         public static final double VALUE_TO_INCHES = 0.125;
     }
 }

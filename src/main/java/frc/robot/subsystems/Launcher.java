@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.util.Map;
 
 
@@ -27,7 +28,7 @@ import frc.robot.util.Map;
 public class Launcher extends SubsystemBase {
 
     private CANSparkMax launching;
-    private WPI_TalonSRX intake;
+    private VictorSPX intake;
     private VictorSPX pivot;
 
     private DigitalInput topdigital;
@@ -44,7 +45,7 @@ public class Launcher extends SubsystemBase {
      */
     public Launcher() { 
         launching = new CANSparkMax(Constants.LauncherConstants.LAUNCH_PORT, MotorType.kBrushless);
-        intake = new WPI_TalonSRX(Constants.LauncherConstants.INTAKE_PORT);
+        intake = new VictorSPX(Constants.LauncherConstants.INTAKE_PORT);
         pivot = new VictorSPX(Constants.LauncherConstants.PIVOT_PORT);
         topdigital = new DigitalInput(Constants.LauncherConstants.DIGITAL_INPUT);
         bottomdigital = new DigitalInput(Constants.LauncherConstants.DIGITAL_INPUT_2);
@@ -111,22 +112,22 @@ public class Launcher extends SubsystemBase {
 
         if (state < 0) {
             if (getBottomSwitchState()) {
-                System.out.println("          1");
+                
                 pivot.set(ControlMode.PercentOutput, 0);
             } else {
-                System.out.println("          2");
+                
                 pivot.set(ControlMode.PercentOutput, controllerToPercentageMap.getNewValue(-state)); // reverses state beacuse controller joystick is opp of what is expected
             }
         } else if (state > 0) {
             if (getTopSwitchState()) {
-                System.out.println("          3");
+                
                 pivot.set(ControlMode.PercentOutput, 0);
             } else {
-                System.out.println("          4");
+                
                 pivot.set(ControlMode.PercentOutput, controllerToPercentageMap.getNewValue(-state));
             }
         } else {
-            System.out.println("          5");
+            
             pivot.set(ControlMode.PercentOutput, 0);
         }
         
@@ -145,10 +146,8 @@ public class Launcher extends SubsystemBase {
      * @param buttonTrigger the button used to trigger this method (A)
      * @param speed the speed in which the intake will move the ball to launcher
      */
-    public void intakeBall(JoystickButton buttonTrigger, double speed) {
-        if (buttonTrigger.get() == true) {
-            intake.set(speed);
-        }
+    public void intakeBall(double speed) {
+        intake.set(ControlMode.PercentOutput, speed);
     }
 
     /**
@@ -159,33 +158,13 @@ public class Launcher extends SubsystemBase {
     // }
 
     private double getAngle() {
+       
         
-        double angle = angleRotation.getDistance();
-        
-        if (getBottomSwitchState() == true) {
+        if (getBottomSwitchState()) {
             angleRotation.reset();
             
-            angle = angleRotation.getDistance() + 20;
         }
-
-        if (getTopSwitchState() == true) {
-            angleRotation.reset();
-            angle = angleRotation.getDistance() + 40;
-        } 
-        
-        if (getBottomSwitchState() == false && getTopSwitchState() == false) {
-            if (pivot.getMotorOutputVoltage() < 0) {
-                angle += angleRotation.getDistance();
-            } else {
-                angle -= angleRotation.getDistance();
-            }
-        }
-
-        if (angleRotation.getStopped() == true) {
-            // stopMotor();
-        }
-
-        return angle % 360;
+        return angleRotation.getDistance() % 360;
     }
     
 

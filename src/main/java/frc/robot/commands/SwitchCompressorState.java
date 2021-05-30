@@ -7,6 +7,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
 
+// DONT WORRY ABOUT THIS CLASS, IT AINT IMPORTANT
+
+
 /** Add your docs here. */
 public class SwitchCompressorState extends Trigger {
 

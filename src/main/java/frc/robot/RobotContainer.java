@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.LauncherTrigger;
+
 // import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.SetSafety;
 import frc.robot.commands.SwitchCompressorState;
@@ -58,7 +58,7 @@ public class RobotContainer {
 
   public static JoystickButton intakeButton;
   public static POVButton pivotButton;
-  public static LauncherTrigger launchTrigger;
+  
   public static SwitchCompressorState compressorState;
 
   public static DoubleSupplier zSupplier;
@@ -139,15 +139,17 @@ public class RobotContainer {
     setSafeButton = new JoystickButton(controller, OIConstants.XBOX_SAFE_BUTTON_PORT);
     setSafeButton.toggleWhenPressed(new SetSafety());
 
-    intakeButton = new JoystickButton(controller, XboxController.Button.kA.value);
-    intakeButton.whenHeld(new RunCommand(() -> launch.intakeBall(intakeButton, -0.3)));
+    // intakeButton = new JoystickButton(controller, XboxController.Button.kA.value);
+    // intakeButton.whenHeld(new RunCommand(() -> launch.intakeBall(intakeButton, -0.3)));
 
     
     // compressorState = new SwitchCompressorState();
     // compressorState.toggleWhenActive(new RunCommand(() -> climber.switchCompressor(state)));
 
-    launchTrigger = new LauncherTrigger();
-    launchTrigger.toggleWhenActive(new RunCommand(() -> launch.launchBall(1.0)));
+    
+
+    // launchTrigger.whenActive(new RunCommand(() -> launch.launchBall(0.5)));
+    // launchTrigger.whenInactive(new RunCommand(() -> launch.launchBall(0)));
   }
 
   public static int getMode() {

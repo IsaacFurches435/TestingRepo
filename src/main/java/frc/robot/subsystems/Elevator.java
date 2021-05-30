@@ -21,7 +21,7 @@ public class Elevator extends SubsystemBase {
   public void moveElevator(double state) {
     if (state > 0.5) {
       this.elevator.set(0.5);
-    } else if (state < 0.5) {
+    } else if (state < -0.5) {
       this.elevator.set(-0.5);
     } else {
       this.elevator.set(0);
