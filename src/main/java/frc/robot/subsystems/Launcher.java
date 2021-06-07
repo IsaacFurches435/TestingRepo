@@ -164,7 +164,8 @@ public class Launcher extends SubsystemBase {
             angleRotation.reset();
             
         }
-        return angleRotation.getDistance() % 360;
+
+        return (angleRotation.getDistance() + 20) % 360;
     }
     
 
