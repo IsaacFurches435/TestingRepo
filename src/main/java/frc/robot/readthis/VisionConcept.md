@@ -1,1 +1,4 @@
-# Concept
+# Vision Concept
+The following GIF showcases the beginnings of vision code. The environment of shapes is meant to test my recognition code, which prioritizes larger shapes, so that when it is in use on the robot, small blips will not be mistaken for a target. The blue crosshair simulates the camera POV. Of course this simulation is not representative of the actual mechanics of the camera. But aside from that, when the blue crosshair crosses over the center of the targeted shape, the crosshair will turn red. This indicates that the crosshair is lined up with a shape. I plan to use this to recognize a large shape, created by the reflective tape around the target, then determine the relative position of the crosshair to the targeted shape, and then input movement and launcher adjustments based on various factors. 
+
+![Image](concept.gif) 
