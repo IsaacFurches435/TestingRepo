@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -102,6 +102,7 @@ public class RobotContainer {
     chooser.setDefaultOption("Do nothing", 0);
     chooser.addOption("Follow Traject", 1);
     chooser.addOption("Drive Forward", 2);
+    chooser.addOption("Rotate Pivot", (int) SmartDashboard.getNumber("Angle", 0));
 
     mode_chooser.setDefaultOption("Normal Mode", 0);
     mode_chooser.addOption("Normal Mode", 0);

@@ -68,6 +68,9 @@ public class Launcher extends SubsystemBase {
         }
         return false;
     }
+
+    
+
     /**
      * returns the state of the bottom digital input as well as stops the pivot motor from moving
      * @return the state of bottom-digital input
@@ -157,7 +160,7 @@ public class Launcher extends SubsystemBase {
     //     pivot.set(ControlMode.PercentOutput, 0);
     // }
 
-    private double getAngle() {
+    public double getAngle() {
        
         
         if (getBottomSwitchState()) {
@@ -167,13 +170,15 @@ public class Launcher extends SubsystemBase {
 
         return (angleRotation.getDistance() + 20) % 360;
     }
-    
+
+ 
 
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Top State", getTopSwitchState());
         SmartDashboard.putBoolean("Bottom State", getBottomSwitchState());
         SmartDashboard.putNumber("Pivot Angle", getAngle());
+        SmartDashboard.putNumber("Angle", 0.0);
 
     }
 
